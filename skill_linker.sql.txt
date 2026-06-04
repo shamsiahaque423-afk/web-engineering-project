@@ -1,0 +1,41 @@
+CREATE DATABASE IF NOT EXISTS skilllinker;
+USE skilllinker;
+
+  LEARNERS TABLE
+
+CREATE TABLE learners (
+    learner_id INT PRIMARY KEY,
+    email VARCHAR(100) NOT NULL,
+    skill_interest VARCHAR(100) NOT NULL,
+    learning_level ENUM('beginner','intermediate','advanced') NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+   PROVIDERS TABLE
+
+CREATE TABLE providers (
+    provider_id INT PRIMARY KEY,
+    email VARCHAR(100) NOT NULL,
+    skill_name VARCHAR(100) NOT NULL,
+    experience VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+
+  REQUEST TABLE
+
+CREATE TABLE request (
+    request_id INT AUTO_INCREMENT PRIMARY KEY,
+    learner_id INT NOT NULL,
+    provider_id INT NOT NULL,
+    status ENUM('Pending','Accepted') DEFAULT 'Pending',
+    request_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (learner_id)
+        REFERENCES learners(learner_id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (provider_id)
+        REFERENCES providers(provider_id)
+        ON DELETE CASCADE
+);
